@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: false }))
 // for start request url "/url"
 app.use(cookieParser())
 app.use("/url",restrictToLoggedInUser, urlRoute);
-app.use("/user", userRouter)
+app.use("/user", userRouter);
 app.use("/",checkAuth, staticRoute);
 
 app.get("/url/:shortID", async (req, res) => {
