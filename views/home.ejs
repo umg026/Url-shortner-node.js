@@ -5,20 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
+<body> 
     <h1>URL Shortner</h1>
+    <button onclick="handelclick()">Logout</button>
     <% if (locals.id) { %>
-       <p>URL Genrated : http://localhost:8000/url/<%= locals.id  %></p>
+       <p>URL Generated : http://localhost:8000/url/<%= locals.id %></p>
     <% } %>
     <div>
         <form action="/url" method="POST">
             <label for="#url">Enter Url :</label>
             <input type="text" name="url" id="url" placeholder="http://example.com">
-            <button type="submit">Genrate</button>
+            <button type="submit">Generate</button>
         </form>
     </div>
 
- <div>
+    <div>
     <% if (locals.urls) { %>
         <table border="1" style="margin-top: 50px;">
            <thead>
@@ -41,7 +42,20 @@
            </tbody>
         </table>
      <% } %>
- </div>
-
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+    <script>
+        async function handelclick() {
+            try {
+                const res = await axios.post("http://localhost:8000/user/logout");
+                if (res.status === 200) {
+                    window.location.href = "/login"; // Redirect to login page after logout
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    </script>
 </body>
 </html>

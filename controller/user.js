@@ -29,9 +29,10 @@ async function handelUserLogin(req, res) {
         if (!user) {
             return res.status(400).json({ msg: "Failed to authenticate" });
         }
-        const sessionId = uuidv4();
-        setUser(sessionId, user);
-        res.cookie("uid", sessionId)
+        // const sessionId = uuidv4();
+
+       const token = setUser(user);
+        res.cookie("uid", token) // set jwt token to cookie
 
 
         return  res.redirect('/'); // Temporary redirect to home after login
@@ -40,5 +41,8 @@ async function handelUserLogin(req, res) {
         return res.status(500).json({ msg: "Internal server error" });
     }
 }
-
-module.exports = { handelUserSignup, handelUserLogin };
+async function handelUserLogout(req, res) {
+    res.clearCookie("uid");
+    return res.redirect("/login")
+}
+module.exports = { handelUserSignup, handelUserLogin ,handelUserLogout};
