@@ -13,8 +13,12 @@ const urlSchema = mongoose.Schema({ // define the structure of the schema fot gi
     visitHistory: [{
         timestamp: {
             type: Number
-        }
-    }]
+        },
+    }],
+    createdBy : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "users"
+    }
 }, {
     timestamps: true
 })
