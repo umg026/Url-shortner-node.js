@@ -39,12 +39,12 @@ async function handelUserLogin(req, res) {
         // const sessionId = uuidv4();
 
        const token = setUser(user);
-        // res.cookie("uid", token) // set jwt token to cookie
-       // return  res.redirect('/'); // Temporary redirect to home after login
+        res.cookie("uid", token) // set jwt token to cookie
+       return  res.redirect('/'); // Temporary redirect to home after login
     
 
-    // for frontend header service
-    return res.json({token})
+    //// for frontend header service
+    // return res.json({token})
 
 
     } catch (error) {

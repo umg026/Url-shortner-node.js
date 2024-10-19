@@ -9,7 +9,10 @@ const PORT = 8000;
 const MongoUrl = "mongodb://127.0.0.1:27017/short-url";
 const staticRoute = require("./routes/staticRouter");
 const cookieParser = require("cookie-parser");
-const { restrictToLoggedInUser, checkAuth } = require("./middlewares/auth");
+const {
+   checkforAuthentication,
+   restrictTo
+} = require("./middlewares/auth");
 
 
 connectToMongo(MongoUrl) // connect to mongoDB
@@ -24,12 +27,14 @@ app.set("views", path.join(__dirname, "views"))
 // use middleware 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+// Front side
+// app.use(checkforAuthentication) 
 
 // for start request url "/url"
 app.use(cookieParser())
-app.use("/url",restrictToLoggedInUser, urlRoute);
+app.use("/url", restrictTo(["basic"]) ,urlRoute);
 app.use("/user", userRouter);
-app.use("/",checkAuth, staticRoute);
+app.use("/", checkforAuthentication,staticRoute); //remove when u work with frontend 
 
 app.get("/url/:shortID", async (req, res) => {
    const shortId = req.params.shortID;

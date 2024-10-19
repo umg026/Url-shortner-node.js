@@ -6,7 +6,8 @@ const secretKey = "$umang$123";
 function setUser( user) {
   const payload = {
     _id : user._id,
-    email: user.email
+    email: user.email,
+    role: user.role
 
   }
   // sessionIdToUser.set(id, user);
