@@ -1,7 +1,7 @@
 const User = require("../model/user");
 const {v4: uuidv4} = require("uuid");
 const { setUser, getUser } = require("../service/auth");
-
+const bycrypt = require("bcrypt");
 
 async function handelUserSignup(req, res) {
     const { name, email, password } = req.body;
@@ -11,7 +11,9 @@ async function handelUserSignup(req, res) {
         if (existingUser) {
             return res.status(400).json({ msg: "Email already in use" });
         }
-        await User.create({ name, email, password });
+        const hashedPassword = await bycrypt.hash(password, 10);
+
+        await User.create({ name, email, password: hashedPassword });
 
         return  res.redirect("/login") // Redirect to login page after signup
     } catch (error) {
