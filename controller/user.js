@@ -27,17 +27,26 @@ async function handelUserLogin(req, res) {
 
     try {
         // Find user by email and password
-        const user = await User.findOne({ email, password });
+        const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ msg: "Failed to authenticate" });
+            return res.status(400).json({ msg: "Email Is not match to DB" });
+        }
+        
+        const isMatch = await bycrypt.compare(password, user.password)
+        if (!isMatch) {
+            return res.status(400).json({ msg: "Password fails" });
         }
         // const sessionId = uuidv4();
 
        const token = setUser(user);
-        res.cookie("uid", token) // set jwt token to cookie
+        // res.cookie("uid", token) // set jwt token to cookie
+       // return  res.redirect('/'); // Temporary redirect to home after login
+    
+
+    // for frontend header service
+    return res.json({token})
 
 
-        return  res.redirect('/'); // Temporary redirect to home after login
     } catch (error) {
         console.error(error);
         return res.status(500).json({ msg: "Internal server error" });
